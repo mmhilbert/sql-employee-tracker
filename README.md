@@ -50,14 +50,6 @@ You will be presented with a list of options to choose from:
 
 Follow the prompts to view or manage the employee database.
 
-### Example Commands:
-- **View all departments**: Displays a formatted table with department names and department IDs.
-- **View all roles**: Displays a formatted table with job titles, role IDs, departments, and salaries.
-- **View all employees**: Displays a formatted table with employee IDs, names, job titles, departments, salaries, and managers.
-- **Add a department**: Prompts for the department name and adds it to the database.
-- **Add a role**: Prompts for the role name, salary, and department, and adds it to the database.
-- **Add an employee**: Prompts for the employee's first name, last name, role, and manager, and adds the employee to the database.
-- **Update an employee role**: Prompts to select an employee and their new role, then updates the database.
 
 ## Features
 - **View Departments**: See a list of all departments with their IDs.
