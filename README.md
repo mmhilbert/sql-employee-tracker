@@ -73,7 +73,7 @@ Contributions are welcome! Please follow these steps:
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 ## Credits
-[GitHub Repo](https://github.com/mmhilbert/sql-employee-tracker)
+[GitHub Repo](https://github.com/mmhilbert/sql-employee-tracker) <br>
 [Application Video](https://drive.google.com/file/d/14k-lqb2DHIqXfdWqJw1bESBTiSnsjlhF/view?usp=sharing)
 
 
