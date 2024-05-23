@@ -84,7 +84,6 @@ const init = async () => {
         ];
 
         const employeeAnswers = await inquirer.prompt(employeeQuestions);
-        console.log(employeeAnswers);
 
         // add to database
 
@@ -169,8 +168,10 @@ const init = async () => {
         break;
       case "Add Role":
         // ****************************************************
-        let departmentList = await getDepartments()
-        let departmentNames = departmentList.map((department) => department.department)
+        let departmentList = await getDepartments();
+        let departmentNames = departmentList.map(
+          (department) => department.department
+        );
 
         // promt user about roles (role)
         const roleQuestions = [
@@ -182,7 +183,7 @@ const init = async () => {
           {
             type: "number",
             name: "salary",
-            message: "Enter salary"
+            message: "Enter salary",
           },
           {
             type: "list",
@@ -196,13 +197,13 @@ const init = async () => {
 
         // insert into roles table
         const roleName = roleAnswers.role;
-        const salary = roleAnswers.salary
-        const departmentTitle = roleAnswers.department
+        const salary = roleAnswers.salary;
+        const departmentTitle = roleAnswers.department;
 
-        const selectedDepartment = departmentList.find(department => departmentTitle === department.department)
+        const selectedDepartment = departmentList.find(
+          (department) => departmentTitle === department.department
+        );
 
-        console.log(departmentTitle)
-        
         await insertRoleData(roleName, salary, selectedDepartment.id);
         console.log("Added Role");
         break;
