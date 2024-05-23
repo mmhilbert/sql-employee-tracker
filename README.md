@@ -11,7 +11,8 @@ The Employee Management System is a command-line application designed to manage 
 - [Features](#features)
 - [Contributing](#contributing)
 - [License](#license)
-- [Questions](#questions)
+- [Credits](#credits)
+
 
 ## Installation
 
@@ -78,6 +79,10 @@ Contributions are welcome! Please follow these steps:
 
 ## License
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## Credits
+[GitHub Repo](https://github.com/mmhilbert/sql-employee-tracker)
+[Application Video](https://drive.google.com/file/d/14k-lqb2DHIqXfdWqJw1bESBTiSnsjlhF/view?usp=sharing)
 
 
 
