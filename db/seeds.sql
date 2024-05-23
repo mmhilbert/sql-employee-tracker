@@ -19,7 +19,7 @@ VALUES
 INSERT INTO employees (first_name, last_name, role_id)
 VALUES
 ('John', 'Doe', 2),
-('Nicolette', 'Maggliolo', 1),
+('Jane', 'Smith', 1),
 ('Sage', 'Hilbert', 7),
 ('Basil', 'Hilbert', 2);
 

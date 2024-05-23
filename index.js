@@ -4,7 +4,9 @@ const {
   getDepartments,
   getEmployees,
   insertEmployeeData,
-  updateEmployeeRole
+  insertDepartmentData,
+  insertRoleData,
+  updateEmployeeRole,
 } = require("./utils/queries");
 
 const initialQuestions = [
@@ -42,7 +44,7 @@ const init = async () => {
       case "View All Employees":
         // run query and display all employees table
         let viewEmployeeData = await getEmployees();
-        console.table(viewEmployeeData)
+        console.table(viewEmployeeData);
         console.log("View All Employees");
         break;
       case "Add Employee":
@@ -54,7 +56,6 @@ const init = async () => {
         let managerNames = employeeData.map(
           (manager) => `${manager.first_name} ${manager.last_name}`
         );
-
 
         // ask questions about employee (name, department, role, manager)
         const employeeQuestions = [
@@ -85,103 +86,148 @@ const init = async () => {
         const employeeAnswers = await inquirer.prompt(employeeQuestions);
         console.log(employeeAnswers);
 
-        // const selectManager = employeeAnswers
-
         // add to database
 
         const selectedRole = roleList.find(
-          role => role.job_title === employeeAnswers.role
+          (role) => role.job_title === employeeAnswers.role
         );
 
         // find employee object, see if employee name matches name selected from prompt
-        const selectedManager = employeeData.find(employee => `${employee.first_name} ${employee.last_name}` === employeeAnswers.manager)
-
-        // let manager = null
-
-        // for (const employee in employeeData) {
-        //    let employeeName = `${employee.first_name} ${employee.last_name}`
-        //     if (employeeName === employeeAnswers.manager) {
-        //         manager = employee
-        //     }
-        // }
-    
+        const selectedManager = employeeData.find(
+          (employee) =>
+            `${employee.first_name} ${employee.last_name}` ===
+            employeeAnswers.manager
+        );
 
         // employee
         const firstName = employeeAnswers.firstName;
         const lastName = employeeAnswers.lastName;
         const roleId = selectedRole.id;
-        const managerId = selectedManager ? selectedManager.id : null
+        const managerId = selectedManager ? selectedManager.id : null;
 
-
-        await insertEmployeeData(firstName, lastName, roleId, managerId)
+        await insertEmployeeData(firstName, lastName, roleId, managerId);
 
         console.log("Add Employee");
         break;
       case "Update Employee Role":
         // run a query to get employees
         // make list of employee names
-        const employees = await getEmployees()
+        const employees = await getEmployees();
         let employeeNames = employees.map(
-            employee => `${employee.first_name} ${employee.last_name}`);
-        
+          (employee) => `${employee.first_name} ${employee.last_name}`
+        );
+
         // run a query to select employee roles
-        const roles = await getRoles()
-        let roleTitles = roles.map(role => role.job_title)
+        const roles = await getRoles();
+        let roleTitles = roles.map((role) => role.job_title);
 
         // prompt user to select from list of employees
         // prompt user to select role and update
         const updateEmployeeQuestions = [
-            {
-              type: "list",
-              name: "employee",
-              message: "Select employee to update",
-              choices: employeeNames
-            },
-            {
-              type: "list",
-              name: "role",
-              message: "Select employees new role",
-              choices: roleTitles,
-            }
-          ];
+          {
+            type: "list",
+            name: "employee",
+            message: "Select employee to update",
+            choices: employeeNames,
+          },
+          {
+            type: "list",
+            name: "role",
+            message: "Select employees new role",
+            choices: roleTitles,
+          },
+        ];
 
-          const updateEmployeeAnswers = await inquirer.prompt(updateEmployeeQuestions)
+        const updateEmployeeAnswers = await inquirer.prompt(
+          updateEmployeeQuestions
+        );
 
-          // get selected employee from employees array based on prompt answer
-          // get selected role from roles array based on prompt answer
+        // get selected employee from employees array based on prompt answer
+        // get selected role from roles array based on prompt answer
 
-          const selectEmployee = employees.find(employee => `${employee.first_name} ${employee.last_name}` === updateEmployeeAnswers.employee)
+        const selectEmployee = employees.find(
+          (employee) =>
+            `${employee.first_name} ${employee.last_name}` ===
+            updateEmployeeAnswers.employee
+        );
 
-          const selectRole = roles.find(role => role.job_title === updateEmployeeAnswers.role)
+        const selectRole = roles.find(
+          (role) => role.job_title === updateEmployeeAnswers.role
+        );
 
-          // run update query to update employee role_id where id = selected employee_id
-          await updateEmployeeRole(selectEmployee.id, selectRole.id)
-
+        // run update query to update employee role_id where id = selected employee_id
+        await updateEmployeeRole(selectEmployee.id, selectRole.id);
 
         console.log("Update Employee Role");
         break;
       case "View All Roles":
         // run query to select all roles
-        const viewAllRoles = getRoles()
+        const viewAllRoles = await getRoles();
 
         // display as table (console.table)
-        console.table(viewAllRoles)
+        console.table(viewAllRoles);
         break;
       case "Add Role":
+        // ****************************************************
+        let departmentList = await getDepartments()
+        let departmentNames = departmentList.map((department) => department.department)
+
         // promt user about roles (role)
+        const roleQuestions = [
+          {
+            type: "text",
+            name: "role",
+            message: "Enter role name",
+          },
+          {
+            type: "number",
+            name: "salary",
+            message: "Enter salary"
+          },
+          {
+            type: "list",
+            name: "department",
+            message: "Select department for this role",
+            choices: departmentNames,
+          },
+        ];
+
+        const roleAnswers = await inquirer.prompt(roleQuestions);
+
         // insert into roles table
-        console.log("Add Role");
+        const roleName = roleAnswers.role;
+        const salary = roleAnswers.salary
+        const departmentTitle = roleAnswers.department
+
+        const selectedDepartment = departmentList.find(department => departmentTitle === department.department)
+
+        console.log(departmentTitle)
+        
+        await insertRoleData(roleName, salary, selectedDepartment.id);
+        console.log("Added Role");
         break;
       case "View All Departments":
         // run a query to get departments
-        const viewDepartments = await getDepartments()
+        const viewDepartments = await getDepartments();
         // console.table display departments
-        console.table(viewDepartments)
+        console.table(viewDepartments);
         break;
       case "Add Department":
         // prompt user about department
+        const departmentQuestions = [
+          {
+            type: "text",
+            name: "department",
+            message: "Enter department name",
+          },
+        ];
+
+        const departmentAnswers = await inquirer.prompt(departmentQuestions);
+
         // insert department into department table
-        console.log("Add Department");
+        const departmentName = departmentAnswers.department;
+        await insertDepartmentData(departmentName);
+        console.log("Added Department");
         break;
       case "Quit":
         isRunning = false;

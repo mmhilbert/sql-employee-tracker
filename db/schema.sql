@@ -22,7 +22,7 @@ CREATE TABLE employees (
     id SERIAL PRIMARY KEY,
     first_name VARCHAR(50) NOT NULL,
     last_name VARCHAR(50) NOT NULL,
-role_id INT NOT NULL,
+    role_id INT NOT NULL,
     manager_id INT,
     FOREIGN KEY (manager_id)
     REFERENCES employees(id)
